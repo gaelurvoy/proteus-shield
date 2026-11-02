@@ -1,0 +1,68 @@
+{
+  "runId": "run-2026-11-01T18:09:27.554Z",
+  "startedAt": "2026-11-01T18:09:27.554Z",
+  "protocolVersion": "1.0.0",
+  "harness": "proteus-shield-action",
+  "artifact": "sample-app",
+  "analyzers": [
+    "scripted-v1"
+  ],
+  "profiles": [
+    "baseline",
+    "fortification",
+    "cost-raising"
+  ],
+  "rows": [
+    {
+      "analyzerId": "scripted-v1",
+      "artifactName": "sample-app",
+      "profileId": "baseline",
+      "operations": 121,
+      "tokens": 19613,
+      "timeMs": 83,
+      "understandScore": 1,
+      "failed": false,
+      "extra": {
+        "seed": 12648430,
+        "model": "scripted-v1"
+      },
+      "axis": "baseline",
+      "tokensPerUnderstanding": 19613,
+      "opsPerUnderstanding": 121
+    },
+    {
+      "analyzerId": "scripted-v1",
+      "artifactName": "sample-app",
+      "profileId": "fortification",
+      "operations": 311,
+      "tokens": 42060,
+      "timeMs": 183,
+      "understandScore": 0.6392982726785038,
+      "failed": false,
+      "extra": {
+        "seed": 12648430,
+        "model": "scripted-v1"
+      },
+      "axis": "5",
+      "tokensPerUnderstanding": 65791,
+      "opsPerUnderstanding": 486.47
+    },
+    {
+      "analyzerId": "scripted-v1",
+      "artifactName": "sample-app",
+      "profileId": "cost-raising",
+      "operations": 121,
+      "tokens": 202879,
+      "timeMs": 86,
+      "understandScore": 1,
+      "failed": false,
+      "extra": {
+        "seed": 12648430,
+        "model": "scripted-v1"
+      },
+      "axis": "3",
+      "tokensPerUnderstanding": 202879,
+      "opsPerUnderstanding": 121
+    }
+  ]
+}

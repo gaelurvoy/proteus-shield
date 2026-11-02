@@ -1,0 +1,18 @@
+{
+  "name": "proteus-shield-action",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Measurement harness for the defensive side of the Proteus Shield study: reproducible benchmark of analyzer cost under defensive profiles. Defensive study only — no evasion or deception transform shipped.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "proteus-benchmark": "src/cli.js"
+  },
+  "scripts": {
+    "benchmark": "node src/cli.js benchmark",
+    "benchmark:json": "node src/cli.js benchmark --json"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

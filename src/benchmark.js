@@ -50,7 +50,7 @@ export function runBenchmark({ artifact, profiles, analyzers, runId }) {
     runId: runId ?? `run-${startedAt}`,
     startedAt,
     protocolVersion: "1.1.0",
-    harness: "proteus-shield-action",
+    harness: "proteus-shield",
     artifact: artifact.name,
     analyzers: analyzers.map((a) => a.id),
     profiles: rows.map((r) => r.profileId),

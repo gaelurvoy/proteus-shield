@@ -1,6 +1,6 @@
 {
-  "name": "proteus-shield-action",
-  "version": "0.2.0",
+  "name": "proteus-shield",
+  "version": "0.2.1",
   "private": true,
   "description": "Proteus Shield: a seven-axis study of defending software against AI reverse-engineering agents, plus a reproducible measurement harness for analyzer cost under defensive profiles. Defensive study only — no evasion or deception transform shipped.",
   "type": "module",
@@ -8,7 +8,7 @@
   "author": "gaelurvoy",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gaelurvoy/proteus-shield-action.git"
+    "url": "git+https://github.com/gaelurvoy/proteus-shield.git"
   },
   "keywords": ["reverse-engineering", "benchmark", "software-protection", "ai-agents", "defensive-security"],
   "bin": {

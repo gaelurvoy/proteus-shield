@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * proteus-shield-action CLI.
+ * proteus-shield CLI.
  *
  * Usage:
  *   node src/cli.js benchmark [--seed N] [--runs N] [--out <path>] [--json]
@@ -20,7 +20,7 @@ const MAX_RUNS = 1000;
 
 function usage() {
   return [
-    "proteus-shield-action — measurement harness (defensive study only)",
+    "proteus-shield — measurement harness (defensive study only)",
     "",
     "Commands:",
     "  benchmark   Run the reproducible benchmark",

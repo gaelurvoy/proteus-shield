@@ -1,5 +1,5 @@
 /**
- * proteus-shield-action — core types (JSDoc typedefs).
+ * proteus-shield — core types (JSDoc typedefs).
  *
  * This project is a *measurement harness*, not a protection engine. It measures
  * how much an analyzer "costs" (operations / tokens / time) to understand an

@@ -1,13 +1,13 @@
 # Protocol — Reproducible Benchmark (v1.1.0)
 
-This document specifies the measurement protocol behind `proteus-shield-action`.
+This document specifies the measurement protocol behind `proteus-shield`.
 It is the instrumentation counterpart to the framing study's blind spot #4
 (see [`etude/gaps.md`](etude/gaps.md)):
 *"no one measures end-to-end cost across axes on the same agent and artifact."*
 
 ## Purpose and substance line
 
-`proteus-shield-action` is a **meter, not a weapon**. It measures how costly it is
+`proteus-shield` is a **meter, not a weapon**. It measures how costly it is
 for an *analyzer* to understand an artifact whose observable properties vary
 according to a **defensive profile**. It does **not**:
 

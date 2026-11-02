@@ -21,6 +21,9 @@ import { createHash } from "node:crypto";
  */
 function makeRng(seed) {
   let s = seed >>> 0;
+  // xorshift32 is stuck forever on 0; any non-zero constant avoids that.
+  if (s === 0) s = 0x9e3779b9;
+  // Returns a value in [0, 1] (both ends reachable).
   return function rng() {
     // xorshift32
     s ^= s << 13; s >>>= 0;
@@ -39,7 +42,7 @@ function makeRng(seed) {
 
 /**
  * Cost model parameters for the scripted substitute. Every number is
- * documented and part of the reproducible protocol (see docs/methodology.md).
+ * documented and part of the reproducible protocol (see docs/protocol.md).
  *
  * @typedef {Object} ScriptedOpts
  * @property {number} opsBudget        // max read operations before giving up
@@ -78,11 +81,11 @@ export function createScriptedAnalyzer(id = "scripted-v1", overrides = {}) {
      */
     analyze(artifact) {
       const rng = makeRng(opts.seed ^ hashArtifact(artifact));
-      const t0 = performanceNow();
 
       let operations = 0;
       let tokens = 0;
       let understood = 0;
+      let budgetExhausted = false;
       const totalSections = artifact.sections.length;
 
       // Raw size read cost (a fixed overhead proportional to size).
@@ -90,7 +93,11 @@ export function createScriptedAnalyzer(id = "scripted-v1", overrides = {}) {
       operations += 1;
 
       for (const sec of artifact.sections) {
-        if (operations >= opts.opsBudget) break;
+        if (operations >= opts.opsBudget) {
+          // The analyzer gives up with sections still unread.
+          budgetExhausted = true;
+          break;
+        }
 
         // Reading a section always costs at least one operation + base tokens.
         operations += 1;
@@ -115,20 +122,22 @@ export function createScriptedAnalyzer(id = "scripted-v1", overrides = {}) {
         understood += estimateUnderstanding(sec, rng);
       }
 
-      const failed = operations >= opts.opsBudget;
+      // `failed` means "gave up with work left", not merely "touched the budget".
+      const failed = budgetExhausted;
       const understandScore = totalSections === 0 ? 0 : understood / totalSections;
-      const timeMs = Math.round(performanceNow() - t0) + simulateThinkMs(operations, rng);
+      // Time is purely modeled (no wall clock) so a run is deterministic.
+      const timeMs = simulateThinkMs(operations, rng);
 
       return {
         analyzerId: id,
         artifactName: artifact.name,
-        profileId: artifact.name, // fixed by caller if needed
         operations,
         tokens: Math.round(tokens),
         timeMs,
         understandScore,
         failed,
-        extra: { seed: opts.seed, model: "scripted-v1" },
+        // The full cost model travels with the result, so it is self-describing.
+        extra: { model: "scripted-v1", params: { ...opts } },
       };
     },
   };
@@ -176,12 +185,4 @@ function hashArtifact(artifact) {
     .update(JSON.stringify(artifact.sections.map((s) => [s.id, s.bytes])))
     .digest("hex");
   return parseInt(h.slice(0, 8), 16);
-}
-
-function performanceNow() {
-  try {
-    const { performance } = globalThis;
-    if (performance && typeof performance.now === "function") return performance.now();
-  } catch {}
-  return Date.now();
 }

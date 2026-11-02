@@ -1,7 +1,7 @@
 {
-  "runId": "run-2026-11-01T18:09:27.554Z",
-  "startedAt": "2026-11-01T18:09:27.554Z",
-  "protocolVersion": "1.0.0",
+  "runId": "run-2026-11-02T09:47:30.763Z",
+  "startedAt": "2026-11-02T09:47:30.763Z",
+  "protocolVersion": "1.1.0",
   "harness": "proteus-shield-action",
   "artifact": "sample-app",
   "analyzers": [
@@ -16,16 +16,24 @@
     {
       "analyzerId": "scripted-v1",
       "artifactName": "sample-app",
-      "profileId": "baseline",
       "operations": 121,
       "tokens": 19613,
       "timeMs": 83,
       "understandScore": 1,
       "failed": false,
       "extra": {
-        "seed": 12648430,
-        "model": "scripted-v1"
+        "model": "scripted-v1",
+        "params": {
+          "opsBudget": 10000,
+          "tokensPerOpBase": 120,
+          "tokensPerByte": 0.02,
+          "entropyTokenMult": 3,
+          "aliasTokenMult": 1.5,
+          "nestingTokenMult": 1.3,
+          "seed": 12648430
+        }
       },
+      "profileId": "baseline",
       "axis": "baseline",
       "tokensPerUnderstanding": 19613,
       "opsPerUnderstanding": 121
@@ -33,16 +41,24 @@
     {
       "analyzerId": "scripted-v1",
       "artifactName": "sample-app",
-      "profileId": "fortification",
       "operations": 311,
       "tokens": 42060,
       "timeMs": 183,
       "understandScore": 0.6392982726785038,
       "failed": false,
       "extra": {
-        "seed": 12648430,
-        "model": "scripted-v1"
+        "model": "scripted-v1",
+        "params": {
+          "opsBudget": 10000,
+          "tokensPerOpBase": 120,
+          "tokensPerByte": 0.02,
+          "entropyTokenMult": 3,
+          "aliasTokenMult": 1.5,
+          "nestingTokenMult": 1.3,
+          "seed": 12648430
+        }
       },
+      "profileId": "fortification",
       "axis": "5",
       "tokensPerUnderstanding": 65791,
       "opsPerUnderstanding": 486.47
@@ -50,16 +66,24 @@
     {
       "analyzerId": "scripted-v1",
       "artifactName": "sample-app",
-      "profileId": "cost-raising",
       "operations": 121,
       "tokens": 202879,
       "timeMs": 86,
       "understandScore": 1,
       "failed": false,
       "extra": {
-        "seed": 12648430,
-        "model": "scripted-v1"
+        "model": "scripted-v1",
+        "params": {
+          "opsBudget": 10000,
+          "tokensPerOpBase": 120,
+          "tokensPerByte": 0.02,
+          "entropyTokenMult": 3,
+          "aliasTokenMult": 1.5,
+          "nestingTokenMult": 1.3,
+          "seed": 12648430
+        }
       },
+      "profileId": "cost-raising",
       "axis": "3",
       "tokensPerUnderstanding": 202879,
       "opsPerUnderstanding": 121

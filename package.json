@@ -1,16 +1,23 @@
 {
   "name": "proteus-shield-action",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Measurement harness for the defensive side of the Proteus Shield study: reproducible benchmark of analyzer cost under defensive profiles. Defensive study only — no evasion or deception transform shipped.",
+  "description": "Proteus Shield: a seven-axis study of defending software against AI reverse-engineering agents, plus a reproducible measurement harness for analyzer cost under defensive profiles. Defensive study only — no evasion or deception transform shipped.",
   "type": "module",
   "license": "MIT",
+  "author": "gaelurvoy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaelurvoy/proteus-shield-action.git"
+  },
+  "keywords": ["reverse-engineering", "benchmark", "software-protection", "ai-agents", "defensive-security"],
   "bin": {
     "proteus-benchmark": "src/cli.js"
   },
   "scripts": {
     "benchmark": "node src/cli.js benchmark",
-    "benchmark:json": "node src/cli.js benchmark --json"
+    "benchmark:json": "node src/cli.js benchmark --json",
+    "test": "node --test"
   },
   "engines": {
     "node": ">=20"

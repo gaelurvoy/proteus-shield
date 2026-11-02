@@ -98,7 +98,9 @@ tool at this commit.
 
 ## Verification status
 
-- [x] Independent verification of cited multipliers and arXiv identifiers (November 2026 spot-check: BLA, Mantis, Cloak/Honey/Trap, and 11 arXiv IDs confirmed against primary sources — see docs/sources.md)
+- [x] Spot-check (November 2026) against primary sources: the BLA multipliers, the Mantis and Cloak/Honey/Trap references, and 11 arXiv identifiers (see [sources.md](sources.md))
+- [ ] Figures taken from Ricerca Security, Reveree and Cloak/Honey/Trap were read from abstracts and excerpts, not from the full texts, and have not been rechecked against them. Treat those numbers as indicative
+- [ ] Recent or low-indexed work, in particular on axis 7, may have been missed: absence of a finding is not proof of absence
 - [x] Study content transcribed faithfully from the source working document
 - [x] Honest scope framing (no executable evasion capability)
 

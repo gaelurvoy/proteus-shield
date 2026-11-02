@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 — 2026-11-02
+
+- Project and repository renamed `proteus-shield` (it now holds both the study and the harness). The `harness` field of result files and the package name follow. Old `proteus-shield-action` URLs redirect.
+
 ## 0.2.0 — 2026-11-02
 
 Publication-readiness pass following an audit of v0.1.0.

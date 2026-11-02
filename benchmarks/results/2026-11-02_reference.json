@@ -1,8 +1,8 @@
 {
-  "runId": "run-2026-11-02T09:47:30.763Z",
-  "startedAt": "2026-11-02T09:47:30.763Z",
+  "runId": "run-2026-11-02T10:37:35.929Z",
+  "startedAt": "2026-11-02T10:37:35.929Z",
   "protocolVersion": "1.1.0",
-  "harness": "proteus-shield-action",
+  "harness": "proteus-shield",
   "artifact": "sample-app",
   "analyzers": [
     "scripted-v1"

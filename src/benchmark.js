@@ -6,7 +6,7 @@
  * reproducible result set. It also normalizes costs to a common currency
  * (operations, tokens, time) so axes can be compared per unit of understanding
  * gained — the exact measurement the study's "blind spot #4" asked for:
- * which axis pays most per euro of effort.
+ * which axis pays most per unit of understanding denied (defender-side cost is not modeled yet).
  */
 
 import { createBaselineArtifact } from "./profiles.js";
@@ -38,7 +38,7 @@ export function runBenchmark({ artifact, profiles, analyzers, runId }) {
     for (const profile of profiles) {
       const profiledArtifact = applyProfile(artifact, profile);
       const result = analyzer.analyze(profiledArtifact);
-      // Reattach profile id correctly (the analyzer set name to base/profile.id).
+      // The analyzer only sees the profiled artifact; the runner tags the row.
       result.profileId = profile.id;
       result.artifactName = artifact.name;
       result.axis = profile.axis;
@@ -49,7 +49,7 @@ export function runBenchmark({ artifact, profiles, analyzers, runId }) {
   return {
     runId: runId ?? `run-${startedAt}`,
     startedAt,
-    protocolVersion: "1.0.0",
+    protocolVersion: "1.1.0",
     harness: "proteus-shield-action",
     artifact: artifact.name,
     analyzers: analyzers.map((a) => a.id),
@@ -74,6 +74,38 @@ export function normalize(summary) {
       opsPerUnderstanding: Math.round(opsPerUnderstanding * 100) / 100,
     };
   });
+}
+
+/**
+ * Aggregate several runs (one per seed) into mean / sample standard deviation
+ * per profile. This is what tells you how much of a result is seed noise.
+ * @param {Array<Array<object>>} runs - each item is normalize(summary) for one seed
+ * @returns {Array<object>}
+ */
+export function aggregate(runs) {
+  const byProfile = new Map();
+  for (const rows of runs) {
+    for (const r of rows) {
+      if (!byProfile.has(r.profileId)) byProfile.set(r.profileId, []);
+      byProfile.get(r.profileId).push(r);
+    }
+  }
+  const stat = (xs) => {
+    const n = xs.length;
+    const mean = xs.reduce((a, b) => a + b, 0) / n;
+    const variance = n > 1 ? xs.reduce((a, b) => a + (b - mean) ** 2, 0) / (n - 1) : 0;
+    return { mean, stdev: Math.sqrt(variance) };
+  };
+  return [...byProfile.entries()].map(([profileId, rs]) => ({
+    profileId,
+    axis: rs[0].axis,
+    runs: rs.length,
+    operations: stat(rs.map((r) => r.operations)),
+    tokens: stat(rs.map((r) => r.tokens)),
+    understandScore: stat(rs.map((r) => r.understandScore)),
+    tokensPerUnderstanding: stat(rs.map((r) => r.tokensPerUnderstanding)),
+    failedRuns: rs.filter((r) => r.failed).length,
+  }));
 }
 
 /**

@@ -1,7 +1,8 @@
-# Methodology — Reproducible Benchmark Protocol (v1.0.0)
+# Protocol — Reproducible Benchmark (v1.1.0)
 
 This document specifies the measurement protocol behind `proteus-shield-action`.
-It is the instrumentation counterpart to the framing study's blind spot #4:
+It is the instrumentation counterpart to the framing study's blind spot #4
+(see [`etude/gaps.md`](etude/gaps.md)):
 *"no one measures end-to-end cost across axes on the same agent and artifact."*
 
 ## Purpose and substance line
@@ -61,8 +62,8 @@ Cost model (defaults):
 These numbers are **placeholders**, chosen to illustrate the protocol, and are
 explicitly *not* validated against a real agent. They will be replaced by
 calibrated values when a real analyzer is plugged in. This honesty is the whole
-point: unlike BLA's self-reported multipliers, every number here is a
-declared, reproducible knob.
+point: unlike the self-reported multipliers of the BLA project (see
+[`etude/sources.md`](etude/sources.md)), every number here is a declared, reproducible knob.
 
 ## Defensive profiles
 
@@ -76,14 +77,35 @@ Three profiles describe how an artifact's *observables* differ from baseline:
 
 ## Reproducibility
 
-A run is reproducible given: the artifact generator parameters, the profile
-definitions, the analyzer's cost-model parameters, and the seed. All are either
-hard-coded defaults or passed via `--seed`. The result file embeds `startedAt`,
-`protocolVersion`, and the full parameter set via the `extra` field.
+A run is reproducible given: the artifact generator parameters, the profile definitions, the
+analyzer's cost-model parameters, and the seed. The cost-model parameters and the seed are written
+into every result row under `extra.params`, so a result file is self-describing.
+
+Time is **modeled**, never measured: `timeMs` is a deterministic function of operations and the
+seeded PRNG, with no wall-clock component. Re-running with the same seed yields identical
+`operations`, `tokens`, `timeMs` and `understandScore`. Only the metadata fields `runId` and
+`startedAt` differ between runs. `tests/` enforces this against the committed reference result.
 
 ```
 node src/cli.js benchmark --seed 12648430 --out benchmarks/results/run.json
+node src/cli.js benchmark --runs 30      # mean and sample stdev over seeds 12648430..+29
 ```
+
+`failed` is true only when the analyzer stops with sections still unread because its operation
+budget ran out. Touching the budget exactly at the last section is not a failure.
+
+## How to interpret a result
+
+The scripted analyzer is a function of declared multipliers, so its outputs are consequences of
+those assumptions:
+
+- the understanding score of a non-readable section is `1 - 0.7 × entropy` (plus bounded noise),
+  so the fortification result is derivable by hand;
+- token cost multiplies out from `entropyTokenMult`, `aliasTokenMult`, `nestingTokenMult`;
+- the seed influences operation counts and understanding noise, not token totals.
+
+A result is therefore evidence about the **harness and protocol**, not about any real agent.
+Quote it as "under the declared cost model", never as a measurement.
 
 ## Normalization
 
